@@ -122,7 +122,7 @@ deactivate
 sudo apt-get install git
 ```
 ```shell
-git clone https://github.com/mklements/OLED_Stats.git
+git clone https://github.com/raribeir/OLED_Stats.git
 ```
 
 9. Now re-enter the virtual environment to run the stats script
@@ -151,10 +151,10 @@ python3 monitor.py
 Remember to change your username ("pi" below) if you're not using a default username
 
 ```shell
-curl -OL https://raw.githubusercontent.com/mklements/OLED_Stats/main/OLED_display
+curl -OL https://raw.githubusercontent.com/raribeir/OLED_Stats/main/OLED_display
 ```
 ```shell
-sudo chmod +x /home/pi/OLED_display
+sudo chmod +x /home/rafael/OLED_display
 ```
 
 The OLED_display script runs the stats.py file by default. To change this to the monitor.py file, you'll need to open it up in a text or code editor and change the target filename from stats.py to monitor.py.
@@ -167,10 +167,10 @@ crontab -e
 
 **Add this to the bottom:**
 
-Remember to change your username ("pi" below) if you're not using a default username
+Remember to change your username ("rafael" below) if you're not using a default username
 
 ```
-@reboot /home/pi/OLED_display &
+@reboot /home/rafael/OLED_display &
 ```
 
 ## Common Display Issues:
