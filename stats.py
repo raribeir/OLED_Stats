@@ -21,7 +21,7 @@ HEIGHT = 64
 BORDER = 5
 
 # Display Refresh
-LOOPTIME = 1.0
+LOOPTIME = 10.0
 
 # Use I2C for communication
 i2c = board.I2C()
@@ -35,6 +35,7 @@ oled_reset_pin.on()  # Turn reset pin back high
 
 # Create the OLED display object
 oled = adafruit_ssd1306.SSD1306_I2C(WIDTH, HEIGHT, i2c, addr=0x3C)
+oled.rotation = 2
 
 # Clear the display
 oled.fill(0)
