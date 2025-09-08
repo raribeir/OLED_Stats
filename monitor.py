@@ -73,30 +73,41 @@ while True:
     cmd = "hostname -I | cut -d\' \' -f1 | head --bytes -1"
     IP = subprocess.check_output(cmd, shell=True)
 
-    cmd = "top -bn1 | grep load | awk '{printf \"%.2fLA\", $(NF-2)}'"
+    #cmd = "top -bn1 | grep load | awk '{printf \"%.2fLA\", $(NF-2)}'"
+    cmd = "mpstat | awk '$12 ~ /[0-9.]+/ { print 100 - $13 \"%\"}'"
     CPU = subprocess.check_output(cmd, shell=True)
 
     cmd = "free -m | awk 'NR==2{printf \"%.2f%%\", $3*100/$2 }'"
     MemUsage = subprocess.check_output(cmd, shell=True)
 
-    cmd = "df -h | awk '$NF==\"/\"{printf \"HDD: %d/%dGB %s\", $3,$2,$5}'"
-    cmd = "df -h | awk '$NF==\"/\"{printf \"%d/%dGB\", $3,$2}'"
+    #cmd = "df -h | awk '$NF==\"/\"{printf \"HDD: %d/%dGB %s\", $3,$2,$5}'"
+    #cmd = "df -h | awk '$NF==\"/\"{printf \"%d/%dGB\", $4}'"
+    cmd = "df -h | awk '$NF==\"/\"{printf \"%d%%\", $5}'"
     Disk = subprocess.check_output(cmd, shell=True)
+
+    cmd = "echo $((`apt list --upgradable 2> /dev/null| wc -l | tail -n 1` -1))"
+    Updates = int(subprocess.check_output(cmd, shell=True))
 
     cmd = "vcgencmd measure_temp | cut -d '=' -f 2 | head --bytes -1"
     Temperature = subprocess.check_output(cmd, shell=True)
 
     # Icons
     # Icon temperature
-    draw.text((x, top + 5), chr(62609), font=icon_font, fill=255)
+    draw.text((x, top + 5), chr(63337), font=icon_font, fill=255)
     # Icon memory
     draw.text((x + 65, top + 5), chr(62776), font=icon_font, fill=255)
     # Icon disk
-    draw.text((x, top + 25), chr(63426), font=icon_font, fill=255)
+    draw.text((x, top + 25), chr(61600), font=icon_font, fill=255)
     # Icon cpu
     draw.text((x + 65, top + 25), chr(62171), font=icon_font, fill=255)
     # Icon wifi
     draw.text((x, top + 45), chr(61931), font=icon_font, fill=255)
+
+    if Updates > 1:
+        draw.text((x + 110, top + 45 ), chr(62337), font=icon_font, fill=255)
+    else:
+        draw.text((x + 110, top + 45 ), chr(61796), font=icon_font, fill=255)
+
 
     # Text
     # Text temperature
@@ -106,7 +117,7 @@ while True:
     # Text Disk usage
     draw.text((x + 19, top + 25), str(Disk, 'utf-8'), font=font, fill=255)
     # Text cpu usage
-    draw.text((x + 87, top + 25), str(CPU, 'utf-8'), font=font, fill=255)
+    draw.text((x + 87, top + 25), str(CPU , 'utf-8'), font=font, fill=255)
     # Text IP address
     draw.text((x + 19, top + 45), str(IP, 'utf-8'), font=font, fill=255)
 
